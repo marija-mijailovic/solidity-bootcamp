@@ -5,40 +5,42 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./interfaces/IDonationsNFT.sol";
-import "./Donations.sol";
 
 contract DonationsNFT is IDonationsNFT, ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private tokenId;
-    Donations public donations;
+		using Counters for Counters.Counter;
+		Counters.Counter private tokenId;
+		address private donationsContract;
 
-    /**
-    * @notice User donations not found. The user has not donated yet.
-    */
-    error NotFoundUserDonation();
+		/**
+		* @notice Permission denied.
+		*/
+		error Unauthorized();
 
-    /**
-    * @notice User is not allowed to mint token. The user has alerady minted their token.
-    */
-    error NotAllowedUserToMintToken();
+		/**
+		* @notice The user is not allowed to receive nft. The user has gotten their gratitude token already.
+		*/
+		error UserAlreadyReceivedAward();
 
-    constructor(Donations _donations) ERC721("Donation gratitude NFT","DGNFT") {
-        donations = _donations;
-    }
+		constructor() ERC721("Donation gratitude NFT","DGNFT") {}
 
-    function awardItem(address donor, string memory tokenURI) public override onlyOwner returns(uint256 itemTokenId){
-        if(!donations.donors(donor)) {
-          revert NotFoundUserDonation();
-        }
-        if(balanceOf(donor) != 0) {
-          revert NotAllowedUserToMintToken();
-        }
+		function awardItem(address donor, string memory tokenURI) public override returns(uint256 itemTokenId){
+			if(msg.sender != donationsContract) {
+				revert Unauthorized();
+			}
+			
+			if(balanceOf(donor) != 0) {
+				revert UserAlreadyReceivedAward();
+			}
 
-        tokenId.increment();
-        uint256 newTokenId = tokenId.current();
-        _safeMint(donor, newTokenId);
-        _setTokenURI(newTokenId, tokenURI);
+			tokenId.increment();
+			uint256 newTokenId = tokenId.current();
+			_safeMint(donor, newTokenId);
+			_setTokenURI(newTokenId, tokenURI);
 
-        itemTokenId = newTokenId;
-    }
+			itemTokenId = newTokenId;
+		}
+
+		function setDonationsContract(address _donationsContract) public override onlyOwner {
+			donationsContract = _donationsContract;
+		}
 }
