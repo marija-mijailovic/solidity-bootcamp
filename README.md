@@ -6,5 +6,5 @@ Donations smart contract - Administrator have the ability to create new campaign
 DonationsNFT smart contract - Each User after its first donation as a gesture of gratitude receives an DNFT
 
 Smart contract deployed on ropsten testnet:
-  - [https://ropsten.etherscan.io/address/0x50315D6FecE67daE360522def833c5e49E0E8201] (Donations contract)
-  - [https://ropsten.etherscan.io/address/0x791DBFb8513DB25D2C5D869599c4aB82D72Ded82] (Donations NFT token)
+  - [https://ropsten.etherscan.io/address/0xc4d0bc754fa975cd2124f778fd8087378472a025] (Donations contract)
+  - [https://ropsten.etherscan.io/address/0xad938A4b4c648044450c19ACA2b35c5CEB86136c] (Donations NFT token)
