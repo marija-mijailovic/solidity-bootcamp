@@ -1,10 +1,18 @@
-node_modules
 .env
-coverage
-coverage.json
-typechain
+.DS_Store
 
 #Hardhat files
 contracts/cache
 cache
 artifacts
+coverage
+coverage.json
+typechain
+node_modules
+
+#Brownie files
+__pycache__
+.history
+.hypothesis/
+build/
+reports/

@@ -4,7 +4,7 @@ import { INFT } from "./fixtures/nft-fixtures";
 import { TransactionResponse } from "@ethersproject/abstract-provider";
 
 export async function notOwner([donations, address]: Wallet[], donationsNFT: Contract) {
-  await expect(donationsNFT.connect(address).callStatic.setDonationsContract(donations.address))
+  await expect(donationsNFT.connect(address).setDonationsContract(donations.address))
     .to.be.revertedWith("Ownable: caller is not the owner");
 }
 
